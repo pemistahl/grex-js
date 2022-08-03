@@ -23,5 +23,12 @@
     "regex",
     "regexp",
     "regular expression"
-  ]
+  ],
+  "devDependencies": {
+    "jest": "^28.1.3",
+    "xregexp": "^5.1.1"
+  },
+  "scripts": {
+    "test": "jest"
+  }
 }
