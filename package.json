@@ -10,7 +10,8 @@
     "browser",
     "node",
     "grex.d.ts",
-    "grex_bg.wasm.d.ts"
+    "grex_bg.wasm.d.ts",
+    "logo.png"
   ],
   "types": "grex.d.ts",
   "exports": {
