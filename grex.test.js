@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-const builder = require("./node/grex").RegExpBuilder;
+const { RegExpBuilder } = require("./node/grex");
 const XRegExp = require("xregexp");
 
 test("no test cases", () => {
-    expect(() => builder.from([]).build()).toThrow(
+    expect(() => RegExpBuilder.from([]).build()).toThrow(
         "No test cases have been provided for regular expression generation");
 });
 
 test("default settings", () => {
     const testCases = ["abc", "abd", "abe"];
-    const pattern = builder.from(testCases).build();
+    const pattern = RegExpBuilder.from(testCases).build();
     expect(pattern).toBe("^ab[c-e]$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -34,7 +34,7 @@ test("default settings", () => {
 
 test("escaping", () => {
     const testCases = ["My ♥ and 💩 is yours."];
-    const pattern = builder.from(testCases).withEscapingOfNonAsciiChars(false).build();
+    const pattern = RegExpBuilder.from(testCases).withEscapingOfNonAsciiChars(false).build();
     expect(pattern).toBe("^My \\u{2665} and \\u{1f4a9} is yours\\.$");
     const regex = XRegExp(pattern, "u");
     for (const testCase of testCases) {
@@ -44,7 +44,7 @@ test("escaping", () => {
 
 test("escaping with surrogate pairs", () => {
     const testCases = ["My ♥ and 💩 is yours."];
-    const pattern = builder.from(testCases).withEscapingOfNonAsciiChars(true).build();
+    const pattern = RegExpBuilder.from(testCases).withEscapingOfNonAsciiChars(true).build();
     expect(pattern).toBe("^My \\u{2665} and \\u{d83d}\\u{dca9} is yours\\.$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -54,7 +54,7 @@ test("escaping with surrogate pairs", () => {
 
 test("capturing groups", () => {
     const testCases = ["efgh", "abcxy", "abcw"];
-    const pattern = builder.from(testCases).withCapturingGroups().build();
+    const pattern = RegExpBuilder.from(testCases).withCapturingGroups().build();
     expect(pattern).toBe("^(abc(xy|w)|efgh)$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -64,7 +64,7 @@ test("capturing groups", () => {
 
 test("case-insensitive matching", () => {
     const testCases = ["ABC", "zBC", "abc", "AbC", "aBc"];
-    const pattern = builder.from(testCases).withCaseInsensitiveMatching().build();
+    const pattern = RegExpBuilder.from(testCases).withCaseInsensitiveMatching().build();
     expect(pattern).toBe("(?i)^[az]bc$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -74,7 +74,7 @@ test("case-insensitive matching", () => {
 
 test("verbose mode", () => {
     const testCases = ["[a-z]", "(d,e,f)"];
-    const pattern = builder.from(testCases).withVerboseMode().build();
+    const pattern = RegExpBuilder.from(testCases).withVerboseMode().build();
     expect(pattern).toBe(
 `(?x)
 ^
@@ -93,7 +93,7 @@ $`
 
 test("case-insensitive matching and verbose mode", () => {
     const testCases = ["Ä@Ö€Ü", "ä@ö€ü", "Ä@ö€Ü", "ä@Ö€ü"];
-    const pattern = builder.from(testCases)
+    const pattern = RegExpBuilder.from(testCases)
         .withCaseInsensitiveMatching()
         .withVerboseMode()
         .build();
@@ -111,7 +111,7 @@ $`
 
 test("conversion of repetitions", () => {
     const testCases = ["a", "b\nx\nx", "c"];
-    const pattern = builder.from(testCases).withConversionOfRepetitions().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfRepetitions().build();
     expect(pattern).toBe("^(?:b(?:\\nx){2}|[ac])$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -121,7 +121,7 @@ test("conversion of repetitions", () => {
 
 test("escaping and conversion of repetitions", () => {
     const testCases = ["My ♥♥♥ and 💩💩 is yours."];
-    const pattern = builder.from(testCases)
+    const pattern = RegExpBuilder.from(testCases)
         .withEscapingOfNonAsciiChars(false)
         .withConversionOfRepetitions()
         .build();
@@ -134,7 +134,7 @@ test("escaping and conversion of repetitions", () => {
 
 test("conversion of digits", () => {
     const testCases = ["a1b2c3"];
-    const pattern = builder.from(testCases).withConversionOfDigits().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfDigits().build();
     expect(pattern).toBe("^a\\db\\dc\\d$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -144,7 +144,7 @@ test("conversion of digits", () => {
 
 test("conversion of non-digits", () => {
     const testCases = ["a1b2c3"];
-    const pattern = builder.from(testCases).withConversionOfNonDigits().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfNonDigits().build();
     expect(pattern).toBe("^\\D1\\D2\\D3$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -154,7 +154,7 @@ test("conversion of non-digits", () => {
 
 test("conversion of whitespace", () => {
     const testCases = ["\n\t", "\r"];
-    const pattern = builder.from(testCases).withConversionOfWhitespace().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfWhitespace().build();
     expect(pattern).toBe("^\\s(?:\\s)?$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -164,7 +164,7 @@ test("conversion of whitespace", () => {
 
 test("conversion of non-whitespace", () => {
     const testCases = ["a1 b2 c3"];
-    const pattern = builder.from(testCases).withConversionOfNonWhitespace().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfNonWhitespace().build();
     expect(pattern).toBe("^\\S\\S \\S\\S \\S\\S$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -174,7 +174,7 @@ test("conversion of non-whitespace", () => {
 
 test("conversion of words", () => {
     const testCases = ["abc", "1234"];
-    const pattern = builder.from(testCases).withConversionOfWords().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfWords().build();
     expect(pattern).toBe("^\\w\\w\\w(?:\\w)?$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {
@@ -184,7 +184,7 @@ test("conversion of words", () => {
 
 test("conversion of non-words", () => {
     const testCases = ["abc 1234"];
-    const pattern = builder.from(testCases).withConversionOfNonWords().build();
+    const pattern = RegExpBuilder.from(testCases).withConversionOfNonWords().build();
     expect(pattern).toBe("^abc\\W1234$");
     const regex = XRegExp(pattern);
     for (const testCase of testCases) {

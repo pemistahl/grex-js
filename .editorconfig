@@ -1,4 +1,5 @@
-# Copyright © 2019-today Peter M. Stahl pemistahl@gmail.com
+#
+# Copyright © 2022 Peter M. Stahl pemistahl@gmail.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,45 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-/dist/
-node_modules
-/pkg/
-/target/
-**/*.rs.bk
+# Editor configuration, see http://editorconfig.org
+root = true
 
-.idea
-.project
-.c9/
-*.launch
-.settings/
-.metadata/
-*.sublime-workspace
-bin/
-tmp/
-out/
-*.iml
-*.ipr
-*.iws
-*.bak
-*.tmp
-*.class
-*.html
-.buildpath
-.classpath
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+[*.{css,js,json}]
+charset = utf-8
+indent_style = space
+indent_size = 2
+insert_final_newline = true
+trim_trailing_whitespace = false
+max_line_length = 100
 
-.DS_Store
-Thumbs.db
-$RECYCLE.BIN/
-._*
-.AppleDouble
-.LSOverride
-*.lnk
-Desktop.ini
-ehthumbs.db
-
-*.proptest-regressions
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false

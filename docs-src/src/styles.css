@@ -1,0 +1,78 @@
+@import "purecss/build/pure.css";
+@import "purecss/build/grids-responsive.css";
+@import url('https://fonts.googleapis.com/css2?family=Cairo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap');
+
+body {
+  background-color: antiquewhite;
+}
+
+html, button, select,
+.pure-g [class *= "pure-u"] {
+  font-family: 'Cairo', sans-serif;
+}
+
+#logo {
+  width: 600px;
+  max-width: 70%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+h1 {
+  color: #2E98BF;
+  text-align: center;
+}
+
+p {
+  color: #754103;
+  text-align: center;
+}
+
+p, label, input, textarea {
+  font-size: 1.2em;
+}
+
+input, textarea {
+  font-family: 'JetBrains Mono', monospace;
+  text-align: center;
+}
+
+input[type=checkbox] {
+  margin-left: 0.5em;
+  vertical-align: middle;
+  position: relative;
+  bottom: 2px;
+  margin-right: 0.4em;
+}
+
+label {
+  color: #754103;
+}
+
+.centered {
+  justify-content: center;
+}
+
+@media (min-width: 768px) {
+  p, label, input, textarea {
+    font-size: 1.5em;
+  }
+  
+  input[type=checkbox] {
+    transform: scale(1.2);
+  }
+}
+
+@media (min-width: 1280px) {
+  h1 {
+    font-size: 2.4em;
+  }
+  p, label, input, textarea {
+    font-size: 2em;
+  }
+
+  input[type=checkbox] {
+    transform: scale(2.0);
+  }
+}

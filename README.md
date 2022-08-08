@@ -76,7 +76,7 @@ npm install @pemistahl/grex
 
 ## 5. How to use?
 
-Detailed explanations of the available settings are provided in the API section.
+Detailed explanations of the available settings are provided in the [API section](#53-the-api).
 
 ### 5.1 In the browser
 
@@ -115,10 +115,10 @@ for (const testCase of testCases) {
 The library is also available as a CommonJS module, so it can be easily used in Node.js.
 
 ```javascript
-const grex = require('@pemistahl/grex');
+const { RegExpBuilder } = require('@pemistahl/grex');
 
 const testCases = ['hello', 'world'];
-const pattern = grex.RegExpBuilder.from(testCases).build();
+const pattern = RegExpBuilder.from(testCases).build();
 console.log(pattern === '^(?:hello|world)$');
 
 const regexp = RegExp(pattern);
@@ -235,7 +235,7 @@ The expression is then put on multiple lines and indented to make it more pleasa
 const regexp = RegExpBuilder.from(['a', 'b', 'bcd'])
     .withVerboseMode()
     .build();
-console.assert(pattern ===
+console.assert(regexp ===
 `(?x)
 ^
   (?:
