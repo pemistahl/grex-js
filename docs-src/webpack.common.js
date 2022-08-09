@@ -42,7 +42,16 @@ module.exports = {
     minimizer: [
       // extend existing minimizers (i.e. `terser-webpack-plugin`)
       `...`,
-      new CssMinimizerPlugin(),
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            "default",
+            {
+              discardComments: { removeAll: true },
+            },
+          ],
+        },
+      }),
     ],
   },
   plugins: [
