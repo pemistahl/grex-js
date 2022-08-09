@@ -3,6 +3,10 @@
 <br>
 
 [![build](https://github.com/pemistahl/grex-js/actions/workflows/build.yml/badge.svg)](https://github.com/pemistahl/grex-js/actions/workflows/build.yml)
+[![docs](https://doxdox.org/images/badge-flat.svg)](https://doxdox.org/pemistahl/grex-js/master)
+[![npm](https://img.shields.io/badge/npm-1.0.0-red?logo=npm)](https://www.npmjs.com/package/@pemistahl/grex)
+[![demo](https://img.shields.io/badge/-Demo%20Website-orange?logo=HTML5&labelColor=white)](https://pemistahl.github.io/grex-js/)
+[![wasm](https://img.shields.io/badge/-WebAssembly-blueviolet?logo=WebAssembly&labelColor=white)](https://webassembly.org/)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
 
 ## 1. What does this library do?
@@ -21,7 +25,7 @@ Unicode support. By compiling it to [WebAssembly](https://webassembly.org) (WASM
 these improvements are now back in the browser and in [Node.js](https://nodejs.org/en/about).
 This repository here contains only the compiled WASM modules and the generated
 JavaScript bindings. They have been created from the Rust source code with the help
-of [`wasm-pack`](https://github.com/rustwasm/wasm-pack).
+of [`wasm-pack`](https://github.com/pemistahl/grex#7-webassembly-support).
 
 The philosophy of this project is to generate the most specific regular expression
 possible by default which exactly matches the given input only and nothing else.
@@ -73,6 +77,9 @@ an initial correct regex which should be inspected by hand if further optimizati
 ```
 npm install @pemistahl/grex
 ```
+
+The current version 1.0.0 corresponds to the latest version 1.4.0 of the Rust
+library and command-line tool.
 
 ## 5. How to use?
 
@@ -128,6 +135,8 @@ for (const testCase of testCases) {
 ```
 
 ### 5.3 The API
+
+The entire API docs are hosted on [doxdox.org](https://doxdox.org/pemistahl/grex-js).
 
 #### 5.3.1 Default settings
 
