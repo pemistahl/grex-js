@@ -17,6 +17,7 @@
 
 import "./styles.css"
 import LogoImage from "./logo.png"
+import GitHubLogo from "./GitHub-Mark-120px-plus.png"
 
 import m from "mithril"
 import { RegExpBuilder } from "@pemistahl/grex"
@@ -140,6 +141,20 @@ const GridCell = {
   )
 }
 
+const Footer = {
+  view: vnode => m("footer",
+    m("a[href=https://www.apache.org/licenses/LICENSE-2.0.txt][title=Read Apache License 2.0][target=_blank]", "Apache License 2.0"),
+    " © ",
+    m("a[href=https://github.com/pemistahl][title=Open Peter's GitHub profile][target=_blank]", "Peter M. Stahl"),
+    m("br"),
+    "Source Code on ",
+    m("img#github-logo", {src: GitHubLogo}),
+    " ",
+    m("a[href=https://github.com/pemistahl/grex-js][title=Open GitHub repository of grex-js][target=_blank]",
+      "GitHub")
+  )
+}
+
 function createCheckBox(id, label) {
   return {
     isChecked: () => document.getElementById(id).checked,
@@ -155,7 +170,12 @@ function createCheckBox(id, label) {
 
 function createRegExp() {
   const input = InputField.value()
-  const testCases = input.split(/(?<![^\\]?\\) /)
+  
+  // Safari does not yet support lookbehind
+  // once it does, replace these lines with input.split(/(?<![^\\]?\\) /)
+  let testCases = input.split("").reverse().join("").split(/ (?!\\[^\\]?)/)
+    .map(s => s.split("").reverse().join(""))
+    .reverse()
     .map(testCase => testCase.replaceAll("\\ ", " "))
     .flatMap(testCase => {
       if (!testCase.match(/ +/)) {
@@ -231,32 +251,35 @@ function App(initialVnode) {
   const handler = {callback: () => regexp = createRegExp()}
   
   return {
-    view: vnode => m("main",
-      m(Grid,
-        m(Logo),
-        m(Heading),
-        m(SubHeading),
-        m(Form, [
-          m(FieldSet, {class: "pure-group"}, [
-            m(InputField, handler),
-            m(TextArea, regexp)
+    view: vnode => m("div.container", 
+      m("main",
+        m(Grid,
+          m(Logo),
+          m(Heading),
+          m(SubHeading),
+          m(Form, [
+            m(FieldSet, {class: "pure-group"}, [
+              m(InputField, handler),
+              m(TextArea, regexp)
+            ]),
+            m(FieldSet, [
+              m(GridCell, m(CheckBoxEscape, handler)),
+              m(GridCell, m(CheckBoxRepetitions, handler)),
+              m(GridCell, m(CheckBoxVerboseMode, handler)),
+              m(GridCell, m(CheckBoxIgnoreCase, handler)),
+              m(GridCell, m(CheckBoxCapturingGroups, handler)),
+              m(GridCell, m(CheckBoxAnchors, handler)),
+              m(GridCell, m(CheckBoxDigits, handler)),
+              m(GridCell, m(CheckBoxSpace, handler)),
+              m(GridCell, m(CheckBoxWords, handler)),
+              m(GridCell, m(CheckBoxNonDigits, handler)),
+              m(GridCell, m(CheckBoxNonSpace, handler)),
+              m(GridCell, m(CheckBoxNonWords, handler)),
+            ])
           ]),
-          m(FieldSet, [
-            m(GridCell, m(CheckBoxEscape, handler)),
-            m(GridCell, m(CheckBoxRepetitions, handler)),
-            m(GridCell, m(CheckBoxVerboseMode, handler)),
-            m(GridCell, m(CheckBoxIgnoreCase, handler)),
-            m(GridCell, m(CheckBoxCapturingGroups, handler)),
-            m(GridCell, m(CheckBoxAnchors, handler)),
-            m(GridCell, m(CheckBoxDigits, handler)),
-            m(GridCell, m(CheckBoxSpace, handler)),
-            m(GridCell, m(CheckBoxWords, handler)),
-            m(GridCell, m(CheckBoxNonDigits, handler)),
-            m(GridCell, m(CheckBoxNonSpace, handler)),
-            m(GridCell, m(CheckBoxNonWords, handler)),
-          ])
-        ])
-      )
+        )
+      ),
+      m(Footer)
     )
   }
 }

@@ -7,6 +7,24 @@ body {
   background-color: antiquewhite;
 }
 
+main {
+  min-height: calc(100vh - 75px);
+}
+
+footer {
+  height: 75px;
+  line-height: 1.5em;
+}
+
+a {
+  color: #754103;
+  text-decoration: underline;
+}
+
+a:hover, a:focus {
+  color: #2E98BF;
+}
+
 html, button, select,
 .pure-g [class *= "pure-u"] {
   font-family: 'Cairo', sans-serif;
@@ -15,8 +33,12 @@ html, button, select,
 #logo {
   width: 600px;
   max-width: 70%;
-  margin-top: 1em;
+  margin-top: 1.5em;
   margin-bottom: 1em;
+}
+
+#github-logo {
+  height: 15px;
 }
 
 h1 {
@@ -24,12 +46,12 @@ h1 {
   text-align: center;
 }
 
-p {
+p, footer {
   color: #754103;
   text-align: center;
 }
 
-p, label, input, textarea {
+p, label, input, textarea, footer {
   font-size: 1.2em;
 }
 
@@ -55,12 +77,16 @@ label {
 }
 
 @media (min-width: 768px) {
-  p, label, input, textarea {
+  p, label, input, textarea, footer {
     font-size: 1.5em;
   }
   
   input[type=checkbox] {
     transform: scale(1.2);
+  }
+  
+  #github-logo {
+    height: 20px;
   }
 }
 
