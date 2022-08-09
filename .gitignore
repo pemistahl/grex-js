@@ -34,7 +34,6 @@ out/
 *.bak
 *.tmp
 *.class
-*.html
 .buildpath
 .classpath
 .vscode/*

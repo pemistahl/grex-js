@@ -23,6 +23,8 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - 'README.md'
+      - 'docs-src/**'
+      - 'docs/**'
   pull_request:
     branches:
       - main
@@ -30,6 +32,8 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - 'README.md'
+      - 'docs-src/**'
+      - 'docs/**'
 
 jobs:
   build-and-test:
