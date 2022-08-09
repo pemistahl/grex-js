@@ -23,6 +23,7 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - 'README.md'
+      - 'RELEASE_NOTES.md'
       - 'docs-src/**'
       - 'docs/**'
   pull_request:
@@ -32,6 +33,7 @@ on:
       - '.gitignore'
       - 'LICENSE'
       - 'README.md'
+      - 'RELEASE_NOTES.md'
       - 'docs-src/**'
       - 'docs/**'
 
