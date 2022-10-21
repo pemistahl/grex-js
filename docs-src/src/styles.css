@@ -46,6 +46,10 @@ h1 {
   text-align: center;
 }
 
+p {
+  line-height: 1.5em;
+}
+
 p, footer {
   color: #754103;
   text-align: center;
@@ -58,6 +62,14 @@ p, label, input, textarea, footer {
 input, textarea {
   font-family: 'JetBrains Mono', monospace;
   text-align: center;
+}
+
+input[type=search] {
+  border-radius: 4px 4px 0 0 !important;
+}
+
+textarea {
+  border-radius: 0 0 4px 4px !important;
 }
 
 input[type=checkbox] {

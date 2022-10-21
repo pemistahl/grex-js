@@ -1,6 +1,6 @@
 {
   "name": "docs-src",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A website for showcasing grex and for hosting API docs",
   "author": "Peter M. Stahl <pemistahl@gmail.com> (https://pemistahl.dev)",
   "license": "Apache-2.0",

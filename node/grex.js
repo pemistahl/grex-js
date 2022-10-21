@@ -27,8 +27,7 @@ function getObject(idx) { return heap[idx]; }
 
 let WASM_VECTOR_LEN = 0;
 
-let cachedUint8Memory0 = new Uint8Array();
-
+let cachedUint8Memory0;
 function getUint8Memory0() {
     if (cachedUint8Memory0.byteLength === 0) {
         cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
@@ -93,8 +92,7 @@ function isLikeNone(x) {
     return x === undefined || x === null;
 }
 
-let cachedInt32Memory0 = new Int32Array();
-
+let cachedInt32Memory0;
 function getInt32Memory0() {
     if (cachedInt32Memory0.byteLength === 0) {
         cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
@@ -133,8 +131,7 @@ function addHeapObject(obj) {
     return idx;
 }
 
-let cachedUint32Memory0 = new Uint32Array();
-
+let cachedUint32Memory0;
 function getUint32Memory0() {
     if (cachedUint32Memory0.byteLength === 0) {
         cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
@@ -451,4 +448,8 @@ const wasmModule = new WebAssembly.Module(bytes);
 const wasmInstance = new WebAssembly.Instance(wasmModule, imports);
 wasm = wasmInstance.exports;
 module.exports.__wasm = wasm;
+
+cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
+cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
+cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
 

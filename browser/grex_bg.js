@@ -24,8 +24,7 @@ function getObject(idx) { return heap[idx]; }
 
 let WASM_VECTOR_LEN = 0;
 
-let cachedUint8Memory0 = new Uint8Array();
-
+let cachedUint8Memory0;
 function getUint8Memory0() {
     if (cachedUint8Memory0.byteLength === 0) {
         cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
@@ -92,8 +91,7 @@ function isLikeNone(x) {
     return x === undefined || x === null;
 }
 
-let cachedInt32Memory0 = new Int32Array();
-
+let cachedInt32Memory0;
 function getInt32Memory0() {
     if (cachedInt32Memory0.byteLength === 0) {
         cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
@@ -134,8 +132,7 @@ function addHeapObject(obj) {
     return idx;
 }
 
-let cachedUint32Memory0 = new Uint32Array();
-
+let cachedUint32Memory0;
 function getUint32Memory0() {
     if (cachedUint32Memory0.byteLength === 0) {
         cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
@@ -443,4 +440,8 @@ export function __wbindgen_string_new(arg0, arg1) {
 export function __wbindgen_throw(arg0, arg1) {
     throw new Error(getStringFromWasm0(arg0, arg1));
 };
+
+cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
+cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
+cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
 

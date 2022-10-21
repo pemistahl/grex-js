@@ -4,7 +4,7 @@
 
 [![build](https://github.com/pemistahl/grex-js/actions/workflows/build.yml/badge.svg)](https://github.com/pemistahl/grex-js/actions/workflows/build.yml)
 [![docs](https://doxdox.org/images/badge-flat.svg)](https://doxdox.org/pemistahl/grex-js/master)
-[![npm](https://img.shields.io/badge/npm-1.0.0-red?logo=npm)](https://www.npmjs.com/package/@pemistahl/grex)
+[![npm](https://img.shields.io/badge/npm-1.0.1-red?logo=npm)](https://www.npmjs.com/package/@pemistahl/grex)
 [![demo](https://img.shields.io/badge/-Demo%20Website-orange?logo=HTML5&labelColor=white)](https://pemistahl.github.io/grex-js/)
 [![wasm](https://img.shields.io/badge/-WebAssembly-blueviolet?logo=WebAssembly&labelColor=white)](https://webassembly.org/)
 [![license](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
@@ -78,7 +78,7 @@ an initial correct regex which should be inspected by hand if further optimizati
 npm install @pemistahl/grex
 ```
 
-The current version 1.0.0 corresponds to the latest version 1.4.0 of the Rust
+The current version 1.0.1 corresponds to the latest version 1.4.1 of the Rust
 library and command-line tool.
 
 ## 5. How to use?

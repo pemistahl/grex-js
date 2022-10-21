@@ -35,8 +35,10 @@ const Heading = {
 
 const SubHeading = {
   view: vnode => m(
-    "p.pure-u-1",
-    "Space characters to be included in the resulting expression have to be escaped with a single backslash character."
+    "p.pure-u-1", 
+      "Test cases are separated by a space.",
+      m("br"),
+      "Space characters to be included in the resulting expression have to be escaped with a single backslash."
   )
 }
 
