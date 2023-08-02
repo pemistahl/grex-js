@@ -28,14 +28,14 @@ const Logo = {
 
 const Heading = {
   view: vnode => m(
-    "h1.pure-u-1", 
+    "h1.pure-u-11-12", 
     "Generate a matching regular expression from the test cases you provide"
   )
 }
 
 const SubHeading = {
   view: vnode => m(
-    "p.pure-u-1", 
+    "p.pure-u-11-12", 
       "Test cases are separated by a space.",
       m("br"),
       "Space characters to be included in the resulting expression have to be escaped with a single backslash."

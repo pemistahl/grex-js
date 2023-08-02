@@ -65,6 +65,8 @@ input, textarea {
 }
 
 input[type=search] {
+  -webkit-appearance: none;
+  background-color: white;
   border-radius: 4px 4px 0 0 !important;
 }
 

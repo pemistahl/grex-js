@@ -14,9 +14,13 @@
  * limitations under the License.
  */
 
-import * as wasm from './grex_bg.wasm';
+let wasm;
+export function __wbg_set_wasm(val) {
+    wasm = val;
+}
 
-const heap = new Array(32).fill(undefined);
+
+const heap = new Array(128).fill(undefined);
 
 heap.push(undefined, null, true, false);
 
@@ -24,9 +28,10 @@ function getObject(idx) { return heap[idx]; }
 
 let WASM_VECTOR_LEN = 0;
 
-let cachedUint8Memory0;
+let cachedUint8Memory0 = null;
+
 function getUint8Memory0() {
-    if (cachedUint8Memory0.byteLength === 0) {
+    if (cachedUint8Memory0 === null || cachedUint8Memory0.byteLength === 0) {
         cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
     }
     return cachedUint8Memory0;
@@ -53,14 +58,14 @@ function passStringToWasm0(arg, malloc, realloc) {
 
     if (realloc === undefined) {
         const buf = cachedTextEncoder.encode(arg);
-        const ptr = malloc(buf.length);
+        const ptr = malloc(buf.length, 1) >>> 0;
         getUint8Memory0().subarray(ptr, ptr + buf.length).set(buf);
         WASM_VECTOR_LEN = buf.length;
         return ptr;
     }
 
     let len = arg.length;
-    let ptr = malloc(len);
+    let ptr = malloc(len, 1) >>> 0;
 
     const mem = getUint8Memory0();
 
@@ -76,7 +81,7 @@ function passStringToWasm0(arg, malloc, realloc) {
         if (offset !== 0) {
             arg = arg.slice(offset);
         }
-        ptr = realloc(ptr, len, len = offset + arg.length * 3);
+        ptr = realloc(ptr, len, len = offset + arg.length * 3, 1) >>> 0;
         const view = getUint8Memory0().subarray(ptr + offset, ptr + len);
         const ret = encodeString(arg, view);
 
@@ -91,26 +96,13 @@ function isLikeNone(x) {
     return x === undefined || x === null;
 }
 
-let cachedInt32Memory0;
+let cachedInt32Memory0 = null;
+
 function getInt32Memory0() {
-    if (cachedInt32Memory0.byteLength === 0) {
+    if (cachedInt32Memory0 === null || cachedInt32Memory0.byteLength === 0) {
         cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
     }
     return cachedInt32Memory0;
-}
-
-let heap_next = heap.length;
-
-function dropObject(idx) {
-    if (idx < 36) return;
-    heap[idx] = heap_next;
-    heap_next = idx;
-}
-
-function takeObject(idx) {
-    const ret = getObject(idx);
-    dropObject(idx);
-    return ret;
 }
 
 const lTextDecoder = typeof TextDecoder === 'undefined' ? (0, module.require)('util').TextDecoder : TextDecoder;
@@ -120,8 +112,11 @@ let cachedTextDecoder = new lTextDecoder('utf-8', { ignoreBOM: true, fatal: true
 cachedTextDecoder.decode();
 
 function getStringFromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
     return cachedTextDecoder.decode(getUint8Memory0().subarray(ptr, ptr + len));
 }
+
+let heap_next = heap.length;
 
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);
@@ -132,16 +127,29 @@ function addHeapObject(obj) {
     return idx;
 }
 
-let cachedUint32Memory0;
+function dropObject(idx) {
+    if (idx < 132) return;
+    heap[idx] = heap_next;
+    heap_next = idx;
+}
+
+function takeObject(idx) {
+    const ret = getObject(idx);
+    dropObject(idx);
+    return ret;
+}
+
+let cachedUint32Memory0 = null;
+
 function getUint32Memory0() {
-    if (cachedUint32Memory0.byteLength === 0) {
+    if (cachedUint32Memory0 === null || cachedUint32Memory0.byteLength === 0) {
         cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
     }
     return cachedUint32Memory0;
 }
 
 function passArrayJsValueToWasm0(array, malloc) {
-    const ptr = malloc(array.length * 4);
+    const ptr = malloc(array.length * 4, 4) >>> 0;
     const mem = getUint32Memory0();
     for (let i = 0; i < array.length; i++) {
         mem[ptr / 4 + i] = addHeapObject(array[i]);
@@ -155,15 +163,16 @@ function passArrayJsValueToWasm0(array, malloc) {
 export class RegExpBuilder {
 
     static __wrap(ptr) {
+        ptr = ptr >>> 0;
         const obj = Object.create(RegExpBuilder.prototype);
-        obj.ptr = ptr;
+        obj.__wbg_ptr = ptr;
 
         return obj;
     }
 
     __destroy_into_raw() {
-        const ptr = this.ptr;
-        this.ptr = 0;
+        const ptr = this.__wbg_ptr;
+        this.__wbg_ptr = 0;
 
         return ptr;
     }
@@ -178,7 +187,7 @@ export class RegExpBuilder {
     * The test cases need not be sorted because `RegExpBuilder` sorts them internally.
     *
     * ⚠ Throws an error if `testCases` is empty.
-    * @param {string[]} testCases
+    * @param {any[]} testCases
     * @returns {RegExpBuilder}
     */
     static from(testCases) {
@@ -209,7 +218,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfDigits() {
-        const ret = wasm.regexpbuilder_withConversionOfDigits(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfDigits(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -224,7 +233,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfNonDigits() {
-        const ret = wasm.regexpbuilder_withConversionOfNonDigits(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfNonDigits(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -238,7 +247,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfWhitespace() {
-        const ret = wasm.regexpbuilder_withConversionOfWhitespace(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfWhitespace(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -247,7 +256,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfNonWhitespace() {
-        const ret = wasm.regexpbuilder_withConversionOfNonWhitespace(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfNonWhitespace(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -261,7 +270,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfWords() {
-        const ret = wasm.regexpbuilder_withConversionOfWords(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfWords(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -273,7 +282,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfNonWords() {
-        const ret = wasm.regexpbuilder_withConversionOfNonWords(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfNonWords(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -282,7 +291,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withConversionOfRepetitions() {
-        const ret = wasm.regexpbuilder_withConversionOfRepetitions(this.ptr);
+        const ret = wasm.regexpbuilder_withConversionOfRepetitions(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -291,7 +300,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withCaseInsensitiveMatching() {
-        const ret = wasm.regexpbuilder_withCaseInsensitiveMatching(this.ptr);
+        const ret = wasm.regexpbuilder_withCaseInsensitiveMatching(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -299,7 +308,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withCapturingGroups() {
-        const ret = wasm.regexpbuilder_withCapturingGroups(this.ptr);
+        const ret = wasm.regexpbuilder_withCapturingGroups(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -310,7 +319,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withEscapingOfNonAsciiChars(useSurrogatePairs) {
-        const ret = wasm.regexpbuilder_withEscapingOfNonAsciiChars(this.ptr, useSurrogatePairs);
+        const ret = wasm.regexpbuilder_withEscapingOfNonAsciiChars(this.__wbg_ptr, useSurrogatePairs);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -318,7 +327,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withVerboseMode() {
-        const ret = wasm.regexpbuilder_withVerboseMode(this.ptr);
+        const ret = wasm.regexpbuilder_withVerboseMode(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -328,7 +337,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withoutStartAnchor() {
-        const ret = wasm.regexpbuilder_withoutStartAnchor(this.ptr);
+        const ret = wasm.regexpbuilder_withoutStartAnchor(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -338,7 +347,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withoutEndAnchor() {
-        const ret = wasm.regexpbuilder_withoutEndAnchor(this.ptr);
+        const ret = wasm.regexpbuilder_withoutEndAnchor(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -348,7 +357,7 @@ export class RegExpBuilder {
     * @returns {RegExpBuilder}
     */
     withoutAnchors() {
-        const ret = wasm.regexpbuilder_withoutAnchors(this.ptr);
+        const ret = wasm.regexpbuilder_withoutAnchors(this.__wbg_ptr);
         return RegExpBuilder.__wrap(ret);
     }
     /**
@@ -364,7 +373,7 @@ export class RegExpBuilder {
     withMinimumRepetitions(quantity) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.regexpbuilder_withMinimumRepetitions(retptr, this.ptr, quantity);
+            wasm.regexpbuilder_withMinimumRepetitions(retptr, this.__wbg_ptr, quantity);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -389,7 +398,7 @@ export class RegExpBuilder {
     withMinimumSubstringLength(length) {
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.regexpbuilder_withMinimumSubstringLength(retptr, this.ptr, length);
+            wasm.regexpbuilder_withMinimumSubstringLength(retptr, this.__wbg_ptr, length);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
             var r2 = getInt32Memory0()[retptr / 4 + 2];
@@ -406,15 +415,19 @@ export class RegExpBuilder {
     * @returns {string}
     */
     build() {
+        let deferred1_0;
+        let deferred1_1;
         try {
             const retptr = wasm.__wbindgen_add_to_stack_pointer(-16);
-            wasm.regexpbuilder_build(retptr, this.ptr);
+            wasm.regexpbuilder_build(retptr, this.__wbg_ptr);
             var r0 = getInt32Memory0()[retptr / 4 + 0];
             var r1 = getInt32Memory0()[retptr / 4 + 1];
+            deferred1_0 = r0;
+            deferred1_1 = r1;
             return getStringFromWasm0(r0, r1);
         } finally {
             wasm.__wbindgen_add_to_stack_pointer(16);
-            wasm.__wbindgen_free(r0, r1);
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
         }
     }
 }
@@ -422,14 +435,10 @@ export class RegExpBuilder {
 export function __wbindgen_string_get(arg0, arg1) {
     const obj = getObject(arg1);
     const ret = typeof(obj) === 'string' ? obj : undefined;
-    var ptr0 = isLikeNone(ret) ? 0 : passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-    var len0 = WASM_VECTOR_LEN;
-    getInt32Memory0()[arg0 / 4 + 1] = len0;
-    getInt32Memory0()[arg0 / 4 + 0] = ptr0;
-};
-
-export function __wbindgen_object_drop_ref(arg0) {
-    takeObject(arg0);
+    var ptr1 = isLikeNone(ret) ? 0 : passStringToWasm0(ret, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    var len1 = WASM_VECTOR_LEN;
+    getInt32Memory0()[arg0 / 4 + 1] = len1;
+    getInt32Memory0()[arg0 / 4 + 0] = ptr1;
 };
 
 export function __wbindgen_string_new(arg0, arg1) {
@@ -437,11 +446,11 @@ export function __wbindgen_string_new(arg0, arg1) {
     return addHeapObject(ret);
 };
 
+export function __wbindgen_object_drop_ref(arg0) {
+    takeObject(arg0);
+};
+
 export function __wbindgen_throw(arg0, arg1) {
     throw new Error(getStringFromWasm0(arg0, arg1));
 };
-
-cachedInt32Memory0 = new Int32Array(wasm.memory.buffer);
-cachedUint32Memory0 = new Uint32Array(wasm.memory.buffer);
-cachedUint8Memory0 = new Uint8Array(wasm.memory.buffer);
 
